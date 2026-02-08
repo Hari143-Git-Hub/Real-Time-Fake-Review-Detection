@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fake Review Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <script>
+        function fillFake() {
+            document.querySelector("textarea").value =
+            "Buy now cheap offer limited time free delivery best product";
+        }
+
+        function fillGenuine() {
+            document.querySelector("textarea").value =
+            "Product quality is good and works well for daily use";
+        }
+
+        function validateForm() {
+            let text = document.querySelector("textarea").value.trim();
+            if (text.split(" ").length < 3) {
+                alert("Please enter a meaningful review (at least 3 words).");
+                return false;
+            }
+
+            document.getElementById("loader").style.display = "block";
+            const btn = document.getElementById("analyzeBtn");
+            btn.disabled = true;
+            btn.innerText = "Analyzing...";
+            return true;
+        }
+
+        /* 🔥 PHASE SWITCHING LOGIC */
+        function showPhase(id) {
+            document.querySelectorAll('.phase').forEach(p => p.style.display = "none");
+            document.getElementById(id).style.display = "block";
+        }
+
+        /* 🔥 AUTO SCROLL TO RESULT */
+        window.onload = function () {
+            const result = document.getElementById("resultSection");
+            if (result) {
+                result.scrollIntoView({ behavior: "smooth" });
+            }
+        };
+    </script>
+</head>
+<body>
+
+<!-- 🔥 Navbar -->
+<div class="navbar">
+    <a href="/" class="{% if request.path == '/' %}active{% endif %}">Analyze</a>
+    <a href="/history" class="{% if request.path == '/history' %}active{% endif %}">History</a>
+</div>
+
+<!-- Header -->
+<div class="header">
+    <h1>🛒 Fake Review Detection System</h1>
+    <p>Hybrid ML + Rule-based system for detecting fake e-commerce reviews</p>
+</div>
+
+<!-- Main Card -->
+<div class="container">
+    <h2>Check Product Review</h2>
+
+    <form method="POST" onsubmit="return validateForm()">
+        <textarea name="review" rows="5"
+        placeholder="Paste product review here..." required></textarea>
+
+        <!-- Sample Buttons -->
+        <div class="sample-buttons">
+            <button type="button" onclick="fillFake()">Sample Fake Review</button>
+            <button type="button" onclick="fillGenuine()">Sample Genuine Review</button>
+        </div>
+
+        <button type="submit" id="analyzeBtn">Analyze Review</button>
+    </form>
+
+    <div id="loader" class="loader"></div>
+
+    {% if result %}
+
+    <!-- 🔥 PHASE TABS -->
+    <div class="tabs">
+        <button onclick="showPhase('p1')">Phase 1</button>
+        <button onclick="showPhase('p2')">Phase 2</button>
+        <button onclick="showPhase('p3')">Phase 3</button>
+    </div>
+
+    <!-- 🔹 PHASE 1 -->
+    <div id="p1" class="phase">
+        <div id="resultSection" class="result-box {{ css_class }}">
+            <h3>{{ result }}</h3>
+            <p class="confidence-badge">{{ confidence }}</p>
+        </div>
+    </div>
+
+    <!-- 🔹 PHASE 2 -->
+    <div id="p2" class="phase" style="display:none;">
+        <div class="result-box {{ css_class }}">
+            <h4>Risk Assessment</h4>
+            <div class="risk-meter">
+                <strong>Fake Review Risk:</strong>
+                {% if risk_level == "HIGH" %}
+                    <span class="risk high">HIGH 🔴</span>
+                {% elif risk_level == "MEDIUM" %}
+                    <span class="risk medium">MEDIUM 🟠</span>
+                {% else %}
+                    <span class="risk low">LOW 🟢</span>
+                {% endif %}
+            </div>
+
+            <hr>
+
+            <h4>Why this result?</h4>
+            <ul class="explain">
+                {% for reason in reasons %}
+                    <li>{{ reason }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- 🔹 PHASE 3 -->
+    <div id="p3" class="phase" style="display:none;">
+        <div class="result-box {{ css_class }}">
+            <h4>Decision Summary</h4>
+            <ul class="decision-summary">
+                {% for key, value in decision_summary.items() %}
+                    <li><strong>{{ key }}:</strong> {{ value }}</li>
+                {% endfor %}
+            </ul>
+
+            <hr>
+
+            <h4>Review Analytics</h4>
+            <ul class="analytics">
+                {% for key, value in analytics.items() %}
+                    <li><strong>{{ key }}:</strong> {{ value }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    {% endif %}
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    <p>Major Project | Machine Learning & NLP</p>
+</div>
+
+</body>
+</html>

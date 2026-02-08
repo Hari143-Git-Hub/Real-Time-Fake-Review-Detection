@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Review History</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+    <a href="/">Home</a>
+    <a href="/">Analyze</a>
+    <a href="/history">History</a>
+</div>
+
+<h2 style="text-align:center;">Review History</h2>
+
+<table border="1" cellpadding="10" cellspacing="0" style="margin:auto; width:90%;">
+    <tr>
+        <th>Review</th>
+        <th>Result</th>
+        <th>Risk</th>
+        <th>Date</th>
+    </tr>
+
+    {% for r in reviews %}
+    <tr>
+        <td>{{ r.review }}</td>
+        <td>{{ r.result }}</td>
+        <td>{{ r.risk }}</td>
+        <td>{{ r.created_at }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>

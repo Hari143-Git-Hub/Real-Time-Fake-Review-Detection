@@ -1,0 +1,21 @@
+C:\Users\kobba\OneDrive\Desktop\Major Project>python --version
+Python 3.13.7
+
+2. pip install pandas numpy scikit-learn nltk flask joblib
+3. >python
+4.  import nltk
+nltk.download('punkt')
+ nltk.download('stopwords')
+5.from nltk.corpus import stopwords
+... print(stopwords.words('english')[:10])
+6.C:\Users\kobba\OneDrive\Desktop\Major Project>dir
+7. 
+ Directory of C:\Users\kobba\OneDrive\Desktop\Major Project
+8.C:\Users\kobba\OneDrive\Desktop\Major Project>reviews.csv
+9. C:\Users\kobba\OneDrive\Desktop\Major Project>python train_model.py
+
+--------------------------
+Day 2 
+----------
+we will modified the code in train_model-py data 
+1.C:\Users\kobba\OneDrive\Desktop\Major Project>python train_model.py
