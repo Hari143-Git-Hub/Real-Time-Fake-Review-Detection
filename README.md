@@ -40,3 +40,16 @@ User → Web Interface → NLP Preprocessing → Feature Extraction (TF-IDF) →
 ---
 
 ## 📂 Project Structure
+Real-Time-Fake-Review-Detection/
+│── app.py
+│── train_model.py
+│── model.pkl
+│── vectorizer.pkl
+│── requirements.txt
+│── setup_nltk.py
+│── README.md
+│── templates/
+│ ├── index.html
+│ └── history.html
+│── static/
+│ └── style.css
